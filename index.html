@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>iMiga</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta id="viewport-meta" name="viewport"
+        content="width=device-width, viewport-fit=cover, height=device-height,initial-scale=0.65, maximum-scale=0.65, target-densityDpi=device-dpi" />
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/x-icon" href="assets/favicons.ico" />
+    <link rel="apple-touch-icon" href="assets/icon-512.png">
+    <link rel="apple-touch-startup-image" href="assets/icon-512.png">
+    <script type="text/javascript" src="js/uncompress/uncompress.js"></script>
+    <script src="js/scripts.min.js"></script>
+    <link rel="stylesheet" href="styles.min.css">
+</head>
+
+<body id="body">
+    <div id="container1" style="display: none;">
+        <div id="warning" class="warnings">
+            <div id="warningStandalone">
+                <p>iMiga needs to be launched from the iOS/iPadOS Home screen:</p>
+                <br />
+                <ol>
+                    <li>Tap the Share <img src="assets/ios-share.png" alt="" width="20px"> button in the Safari menu
+                        bar.</li>
+                    <li>Tap the "Add to Home Screen" option.</li>
+                    <li>Launch the iMiga app from your Home screen.</li>
+                </ol>
+                <br />
+            </div>
+
+            <div id="warningKickstart" class="warnings">
+                <p>iMiga needs a valid Kickstart ROM file.</p>
+                <p>Imported files will be stored locally on your device.</p>
+                <br />
+                <div style="display: flex;">
+                    <span class="guiBtn" id="kick_import_btn" style="width: 150px" disabled="true">Import</span>
+                    <input id="kick_import" type="file" accept=""
+                        style="position:absolute;left:-10000px;top:-10000px;" />
+                    <span id="kick_import_msg" class="accent" style="align-self: center; padding-left: 24px;"></span>
+                </div>
+                <br />
+                <div id="warningKickstartOk">
+                    <br />
+                    <p>Imported Kickstart ROM(s):</p>
+                    <div id="kicks">
+                    </div>
+                    <div class="guiBtn" id="kick_apply_btn" style="width: 150px; float: right;" disabled="true">Continue
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings">
+            <div id="guruWrapper0">
+                <div id="guruWrapper">
+                    <div id="guru">
+                        <p id="guruMessage"></p>
+                        <p id="guruMessage2"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="diskProviderModal">
+                <div id="browserModal" class="reveal-modal"></div>
+            </div>
+
+            <div id="aboutModalWrapper" class="custom-modal-wrapper">
+                <div id="aboutModal" class="reveal-modal">
+                    <p style="font-weight: bolder;">iMiga - Amiga emulator for iPhone and iPad</p>
+                    <br />
+                    <p>Author: Michal Galinski [<a href="http://github.com/gitGalu/iMiga">Visit Github</a>]</p>
+                    <p>Engine by Rupert Hausberger [<a
+                            href="http://scriptedamigaemulator.net">ScriptedAmigaEmulator</a>]</p>
+                    <p>Based on UAE (created by Bernd Schmidt and other
+                        contributors) and WinUAE (developed and maintained
+                        by Mathias Ortmann and Toni Wilen).</p>
+                    <p>
+                        iMiga requires a A10-class device running Safari on iOS / iPadOS 14.
+                    </p>
+                    <p>Released under the GNU General Public License.</p>
+                    <p>
+                        This program is distributed in the hope that it will be useful, but without any warranty;
+                        without even the implied warranty of merchantability or fitness for a particular purpose.</p>
+                    <div class="guiBtn" id="about_close_btn" style="width: 150px; float: right;">Continue</div>
+                </div>
+            </div>
+
+
+            <div class="guiBtn" id="startBtn" style="width: 150px" disabled="true">START</div>
+            <div class="guiBtn" id="resetBtn" style="width: 150px">RESET</div>
+
+            <span id="resetMsg" class="blinking accent"></span>
+
+            <div id="logo">
+                <p>iMiga Preview</p>
+                <p id="versionNumber">2021-06-17</p>
+            </div>
+
+            <br /><br /><br />
+
+            <div id="drivesRestore" class="guiBtn" style="display: none;">
+                Show Drives menu
+            </div>
+
+            <div id="drives"></div>
+
+            <br /><br />
+
+            <div id="prefsRestore" class="guiBtn" style="width: 100%;">
+                Show Preferences menu
+            </div>
+
+            <div id="prefsWrapper">
+                <div id="prefsMenu">
+                    <div class="guiBtn3" id="inputPrefs">Input prefs</div>
+                    <div class="guiBtn3" id="amigaPrefs">Amiga prefs</div>
+                    <div class="guiBtn3" id="emuPrefs">Emulator prefs</div>
+                </div>
+                <div id="prefsContent">
+                    <div id="inputPrefsContent">
+                        <span class="cellItem alignRight">Mouse speed</span>
+                        <div style="display: flex; margin: -2px;">
+                            <input id="cfg_mouse_speed" type="range" min="1" max="10" value="3"
+                                style="padding-right: 2em;">
+                            <span id="cfg_mouse_speed_label"
+                                style="width: 150px; text-align: center; align-self: center; vertical-align: center; padding-right: 24px;">100%</span>
+                        </div>
+                    </div>
+                    <div id="emuPrefsContent"></div>
+                    <div id="amigaPrefsContent"></div>
+                    <div id="cloudPrefsContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="theater-mode" class="disablers">
+    </div>
+
+    <div id="disabler" class="disablers">
+        <div id="disablerImage"><img id="disablerImageImg"></img></div>
+        <div id="disablerMessage"></div>
+    </div>
+    <div id="portrait-disabler-wrapper">
+        <div id="portrait-disabler" class="disablers">
+            <div style="display: flex; height: 100%;">
+                <div style="margin: auto;">
+                    <img src="assets/rotate.png" />
+                    <br /><br />
+                    <p>Portrait mode is not supported yet.</p>
+                    <br />
+                    <p>Please rotate your device.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="screen">
+        <div id="overlay">
+            <div id="overlay-container">
+                <div id="pad2"></div>
+
+                <div id="mouse_container">
+                    <div id="mousepad">
+                        <div id="lmb">
+                            <div class="btn" id="lmbBtn"></div>
+                        </div>
+                        <div id="rmb">
+                            <div class="btn" id="rmbBtn"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="joystick_container">
+                    <div id="quickjoy">
+                        <div id="lr">
+                            <div class="btn" id="l"></div>
+                            <div class="btn" id="r"></div>
+                        </div>
+                        <div id="fire">
+                            <div class="btn" id="f"></div>
+                        </div>
+                        <div id="ud">
+                            <div class="btn" id="u"></div>
+                            <div class="btn" id="d"></div>
+                        </div>
+                    </div>
+
+                    <div id="quickshot">
+                        <div id="qs2_container">
+                            <div id="qs2">
+                                <div id="qs2_dpad">
+                                </div>
+                                <div id="qs2_filler"></div>
+                                <div id="qs2_fire"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="topbar">
+                    <div class="btn2" id="menuBtn"></div>
+                    <div class="btn2" id="switchJoy"></div>
+                    <div class="btn2" id="switchMouse"></div>
+                    <div class="btn2" id="switchKb"></div>
+                    <div class="btn2" id="switchNone"></div>
+                    <div class="btn2o" id="powerBtn"></div>
+                    <div id="statusLabel">STATUS</div>
+                </div>
+
+                <div id="keyboard">
+                    <!-- <div id="kswitch" class="key1 keybutton">switch</div> -->
+                    <div id="keybmain">
+                        <div class="rowlow">
+                            <div id="k69" class="key0 keybutton">Esc</div>
+                            <div class="spacer"></div>
+                            <div id="k80" class="key1 keybutton">F1</div>
+                            <div id="k81" class="key1 keybutton">F2</div>
+                            <div id="k82" class="key1 keybutton">F3</div>
+                            <div id="k83" class="key1 keybutton">F4</div>
+                            <div id="k84" class="key1 keybutton">F5</div>
+                            <div class="spacer"></div>
+                            <div id="k85" class="key1 keybutton">F6</div>
+                            <div id="k86" class="key1 keybutton">F7</div>
+                            <div id="k87" class="key1 keybutton">F8</div>
+                            <div id="k88" class="key1 keybutton">F9</div>
+                            <div id="k89" class="key1 keybutton">F10</div>
+                        </div>
+                        <div class="row">
+                            <div id="k0" class="key0 keybutton">~</div>
+                            <div id="k1" class="key0 keybutton">1</div>
+                            <div id="k2" class="key0 keybutton">2</div>
+                            <div id="k3" class="key0 keybutton">3</div>
+                            <div id="k4" class="key0 keybutton">4</div>
+                            <div id="k5" class="key0 keybutton">5</div>
+                            <div id="k6" class="key0 keybutton">6</div>
+                            <div id="k7" class="key0 keybutton">7</div>
+                            <div id="k8" class="key0 keybutton">8</div>
+                            <div id="k9" class="key0 keybutton">9</div>
+                            <div id="k10" class="key0 keybutton">0</div>
+                            <div id="k11" class="key0 keybutton">-</div>
+                            <div id="k12" class="key0 keybutton">+</div>
+                            <div id="k13" class="key0 keybutton">|</div>
+                            <div id="k65" class="key0 keybutton">DEL</div>
+                        </div>
+                        <div class="row">
+                            <div id="k66" class="key2 keybutton">Tab</div>
+                            <div id="k16" class="key0 keybutton">Q</div>
+                            <div id="k17" class="key0 keybutton">W</div>
+                            <div id="k18" class="key0 keybutton">E</div>
+                            <div id="k19" class="key0 keybutton">R</div>
+                            <div id="k20" class="key0 keybutton">T</div>
+                            <div id="k21" class="key0 keybutton">Y</div>
+                            <div id="k22" class="key0 keybutton">U</div>
+                            <div id="k23" class="key0 keybutton">I</div>
+                            <div id="k24" class="key0 keybutton">O</div>
+                            <div id="k25" class="key0 keybutton">P</div>
+                            <div id="k26" class="key0 keybutton">.</div>
+                            <div id="k27" class="key0 keybutton">.</div>
+                            <div id="k68" class="key1 keybutton">RET</div>
+                        </div>
+                        <div class="row">
+                            <div id="k99" class="key0 keybutton">Ctrl</div>
+                            <div id="k68" class="key0 keybutton">Caps</div>
+                            <div id="k32" class="key0 keybutton">A</div>
+                            <div id="k33" class="key0 keybutton">S</div>
+                            <div id="k34" class="key0 keybutton">D</div>
+                            <div id="k35" class="key0 keybutton">F</div>
+                            <div id="k36" class="key0 keybutton">G</div>
+                            <div id="k37" class="key0 keybutton">H</div>
+                            <div id="k38" class="key0 keybutton">J</div>
+                            <div id="k39" class="key0 keybutton">K</div>
+                            <div id="k40" class="key0 keybutton">L</div>
+                            <div id="k41" class="key0 keybutton">:;</div>
+                            <div id="k42" class="key0 keybutton">"'</div>
+                            <div id="k43" class="key0 keybutton"></div>
+                        </div>
+                        <div class="row">
+                            <div id="k96" class="key2 keybutton">Shift</div>
+                            <div id="k48" class="key0 keybutton"></div>
+                            <div id="k49" class="key0 keybutton">Z</div>
+                            <div id="k50" class="key0 keybutton">X</div>
+                            <div id="k51" class="key0 keybutton">C</div>
+                            <div id="k52" class="key0 keybutton">V</div>
+                            <div id="k53" class="key0 keybutton">B</div>
+                            <div id="k54" class="key0 keybutton">N</div>
+                            <div id="k55" class="key0 keybutton">M</div>
+                            <div id="k56" class="key0 keybutton">>,</div>
+                            <div id="k57" class="key0 keybutton">>.</div>
+                            <div id="k58" class="key0 keybutton">?/</div>
+                            <div id="k97" class="key4 keybutton">Shift</div>
+                        </div>
+                        <div class="row">
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                            <div id="k100" class="key1 keybutton">Alt</div>
+                            <div id="k102" class="key1 keybutton">AMI</div>
+                            <div id="k64" class="keysp keybutton"></div>
+                            <div id="k103" class="key1 keybutton">AMI</div>
+                            <div id="k101" class="key1 keybutton">Alt</div>
+                        </div>
+                    </div>
+                    <div id="keybsecondary" style="display: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="amigaScreen"></div>
+    </div>
+</body>
+
+</html>
